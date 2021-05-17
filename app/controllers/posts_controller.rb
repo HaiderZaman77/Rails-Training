@@ -1,37 +1,22 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :set_post, only: [:show]
 #posts
   # GET /posts or /posts.json
   def index
     @posts = Post.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @posts }
-    end
   
   end
 
   # GET /posts/1 or /posts/1.json
   def show
-    @post = Post.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @post }
-    end
+    @comment = @post.comments.new
+    @comments = @post.comments
   
   end
 
   # GET /posts/new
   def new
     @post = Post.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @post }
-    end
-  
   end
 
   # GET /posts/1/edit
@@ -43,35 +28,22 @@ class PostsController < ApplicationController
   # POST /posts or /posts.json
   def create
     @post = Post.new(post_params)
-
-    respond_to do |format|
-      if @post.save
-        flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to(@post) }
-        format.xml  { render :xml => @post, :status => :created,
-                    :location => @post }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @post.errors,
-                    :status => :unprocessable_entity }
-      end
+    if @post.save
+      flash[:notice] = 'Post was successfully created.'
+      redirect_to posts_path
+    else
+      render :new
     end
-    end
+  end
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
     @post = Post.find(params[:id])
-  
-    respond_to do |format|
-      if @post.update(post_params)
-        flash[:notice] = 'Post was successfully updated.'
-        format.html { redirect_to(@post) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @post.errors,
-                    :status => :unprocessable_entity }
-      end
+    if @post.update(post_params)
+      redirect_to :action => 'show', :id => @post
+    else
+      @comments = Comment.all
+      render :action => 'edit'
     end
   end
 
@@ -79,21 +51,17 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
-  
-    respond_to do |format|
-      format.html { redirect_to(posts_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to post_path
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
 
     # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:name, :title, :content)
+    end
+
+    def set_post
+      @post = Post.find(params[:id])
     end
 end

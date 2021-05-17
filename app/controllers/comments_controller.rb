@@ -1,56 +1,58 @@
 class CommentsController < ApplicationController
-  def index
-    @post = Post.find(params[:post_id])
-    @comments = @post.comments
-
-  end
+  before_action :set_post
+  before_action :set_comment, only: %i[destroy edit update]
 
   def show
     @post = Post.find(params[:post_id])
-    @comment = @post.comments.find(params[:id])
-
+    @comment = @post.comments.all
   end
 
   def new
-    @post = Post.find(params[:post_id])
-    @comment = @post.comments.build
+    @comment = Comment.new
 
   end
 
   def create
-    @post = Post.find(params[:post_id])
-    @comment = @post.comments.build(params[:comment])
+    @comment = @post.comments.create(comment_param)
     if @comment.save
-      redirect_to post_comment_url(@post, @comment)
+      flash[:notice] = 'Comment Added'
+      redirect_to post_path(@post)
     else
-      render :action => "new"
-    end
-  end
 
-  def edit
-    @post = Post.find(params[:post_id])
-    @comment = @post.comments.find(params[:id])
+      flash[:notice] = 'Unable to add comment please try again'
+      render :new
+    end
+
   end
 
   def update
-    @post = Post.find(params[:post_id])
-    @comment = Comment.find(params[:id])
-    if @comment.update_attributes(params[:comment])
-      redirect_to post_comment_url(@post, @comment)
+    if @comment.update(comment_param)
+      flash[:notice] = 'Comment Updated'
+      redirect_to post_path(@post)
     else
-      render :action => "edit"
+      flash[:notice] = 'Unable to update the comment. Please try again'
+      render :edit
     end
   end
 
   def destroy
-    @post = Post.find(params[:post_id])
-    @comment = Comment.find(params[:id])
     @comment.destroy
+    flash[:notice] = 'Comment Deleted'
+    redirect_to post_path(@post)
+  end
 
-    respond_to do |format|
-      format.html { redirect_to post_comments_path(@post) }
-      format.xml  { head :ok }
-    end
+  private
+
+  def comment_param
+    params.require(:comment).permit(:body)
+  end
+
+  def set_post
+    @post = Post.find(params[:post_id])
+  end
+
+  def set_comment
+    @comment = @post.comments.find(params[:post_id])
   end
 
 end
