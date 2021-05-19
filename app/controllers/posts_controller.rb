@@ -1,9 +1,11 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show]
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:index, :create, :destroy]
 #posts
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
+    @posts = @user.posts.all
+
   
   end
 
@@ -21,16 +23,16 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
-    @post = Post.find(params[:id])
 
   end
 
   # POST /posts or /posts.json
   def create
-    @post = Post.new(post_params)
+    @post = @user.posts.new(post_params)
+    byebug
     if @post.save
       flash[:notice] = 'Post was successfully created.'
-      redirect_to posts_path
+      redirect_to user_post_path(@post,params[:user_id])
     else
       render :new
     end
@@ -38,30 +40,33 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
-    @post = Post.find(params[:id])
+    byebug
     if @post.update(post_params)
-      redirect_to :action => 'show', :id => @post
+      redirect_to user_post_path(post,params[:user_id])
     else
       @comments = Comment.all
-      render :action => 'edit'
     end
   end
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
-    @post = Post.find(params[:id])
     @post.destroy
-    redirect_to post_path
+    byebug
+    redirect_to  user_posts_path(params[:user_id])
   end
 
   private
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:name, :title, :content)
+      params.require(:post).permit(:name, :title, :content, :user_id)
     end
 
     def set_post
       @post = Post.find(params[:id])
+    end
+
+    def set_user
+      @user = User.find(params[:user_id])
     end
 end

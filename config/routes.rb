@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-
+  root to: 'users#home' 
+  resources :users do
+    resources :posts do
+      resources :comments 
+    end
+  end
   resources :posts do
     resources :comments
   end

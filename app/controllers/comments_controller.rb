@@ -16,11 +16,10 @@ class CommentsController < ApplicationController
     @comment = @post.comments.create(comment_param)
     if @comment.save
       flash[:notice] = 'Comment Added'
-      redirect_to post_path(@post)
+      redirect_to user_post_path(@post)
     else
 
       flash[:notice] = 'Unable to add comment please try again'
-      render :new
     end
 
   end
@@ -28,7 +27,7 @@ class CommentsController < ApplicationController
   def update
     if @comment.update(comment_param)
       flash[:notice] = 'Comment Updated'
-      redirect_to post_path(@post)
+      redirect_to user_post_path(@post)
     else
       flash[:notice] = 'Unable to update the comment. Please try again'
       render :edit
@@ -38,7 +37,7 @@ class CommentsController < ApplicationController
   def destroy
     @comment.destroy
     flash[:notice] = 'Comment Deleted'
-    redirect_to post_path(@post)
+    redirect_to user_post_path(@post)
   end
 
   private
