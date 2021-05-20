@@ -29,7 +29,6 @@ class PostsController < ApplicationController
   # POST /posts or /posts.json
   def create
     @post = @user.posts.new(post_params)
-    byebug
     if @post.save
       flash[:notice] = 'Post was successfully created.'
       redirect_to user_post_path(@post,params[:user_id])
@@ -40,7 +39,6 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
-    byebug
     if @post.update(post_params)
       redirect_to user_post_path(post,params[:user_id])
     else
