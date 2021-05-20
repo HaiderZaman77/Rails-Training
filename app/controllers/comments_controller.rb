@@ -1,9 +1,8 @@
 class CommentsController < ApplicationController
-  before_action :set_post
+  before_action :set_post, only: [:show, :create]
   before_action :set_comment, only: %i[destroy edit update]
 
   def show
-    @post = Post.find(params[:post_id])
     @comment = @post.comments.all
   end
 
@@ -16,7 +15,7 @@ class CommentsController < ApplicationController
     @comment = @post.comments.create(comment_param)
     if @comment.save
       flash[:notice] = 'Comment Added'
-      redirect_to user_post_path(@post)
+      redirect_to user_post_path(params[:user_id],@post)
     else
 
       flash[:notice] = 'Unable to add comment please try again'
@@ -43,7 +42,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_param
-    params.require(:comment).permit(:body)
+    params.require(:comment).permit(:id, :commenter, :body)
   end
 
   def set_post

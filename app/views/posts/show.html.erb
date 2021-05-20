@@ -26,5 +26,5 @@
   </p>
 <% end %>
 <%= render 'comments/form' %>
-<%= link_to 'Edit Post',edit_user_post_path(@post) %> |
-<%= link_to 'Back to Posts', user_posts_path(@post,params[:user_id]) %>
+<%= link_to 'Edit Post', user_posts_path(params[:user_id], @post) %> |
+<%= link_to 'Back to Posts', user_posts_path(params[:user_id],@post) %>

@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :set_user, only: [:index, :create, :destroy]
+  before_action :set_user, only: [:index, :edit, :update, :create, :destroy]
 #posts
   # GET /posts or /posts.json
   def index
@@ -22,16 +22,13 @@ class PostsController < ApplicationController
   end
 
   # GET /posts/1/edit
-  def edit
-
-  end
 
   # POST /posts or /posts.json
   def create
     @post = @user.posts.new(post_params)
     if @post.save
       flash[:notice] = 'Post was successfully created.'
-      redirect_to user_post_path(@post,params[:user_id])
+      redirect_to user_post_path(params[:user_id],@post)
     else
       render :new
     end
@@ -39,17 +36,13 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
-    if @post.update(post_params)
-      redirect_to user_post_path(post,params[:user_id])
-    else
-      @comments = Comment.all
-    end
+    @post.update(post_params)
+    redirect_to user_posts_path(params[:user_id],@post)
   end
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
     @post.destroy
-    byebug
     redirect_to  user_posts_path(params[:user_id])
   end
 

@@ -21,9 +21,9 @@
         <td><%= post.name %></td>
         <td><%= post.title %></td>
         <td><%= post.content %></td>
-        <td><%= link_to 'Show', user_post_path(post, params[:user_id])%></td>
-        <td><%= link_to 'Edit', edit_user_post_path(post,params[:user_id]) %></td>
-        <td><%= link_to 'Destroy', user_post_path(post, params[:user_id]), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', user_post_path(params[:user_id],post)%></td>
+        <td><%= link_to 'Edit', edit_user_post_path(params[:user_id],post) %></td>
+        <td><%= link_to 'Destroy', user_post_path(params[:user_id],post), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
