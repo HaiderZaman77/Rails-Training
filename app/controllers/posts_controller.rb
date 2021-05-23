@@ -1,10 +1,15 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_post, only: [:show, :edit, :update, :destroy]
- 
+  layout 'post', only: %i[create new show edit]
 #posts
   # GET /posts or /posts.json
   def index
-    @posts = current_user.posts.all
+    if user_signed_in?
+      @posts = current_user.posts.all
+    else
+      redirect_to new_user_session_path
+    end
   end
 
   # GET /posts/1 or /posts/1.json
