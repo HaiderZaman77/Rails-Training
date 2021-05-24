@@ -45,7 +45,7 @@ class PostsController < ApplicationController
   # DELETE /posts/1 or /posts/1.json
   def destroy
     @post.destroy
-    redirect_to  user_posts_path(params[:user_id])
+    redirect_to root_path
   end
 
   private

@@ -1,15 +1,20 @@
 <% if user_signed_in? %>
   <h4 class='d-flex justify-content-between mb-4 container'>
     <span>Posts</span>
-    <%= link_to 'New Post', new_user_post_path(current_user), class: 'btn btn-primary' %>
+    <%= link_to 'New Post', new_user_post_path(current_user), class: 'btn btn-primary bg-green' %>
   </h4>
 
   <% @posts.each do |post| %>
     <%= link_to user_post_path(current_user,post), class: 'text-decoration-none' do %>
-      <div class="card mb-3">
+      <div class="card mb-3 container">
         <div class="card-body">
+        <span>
           <h5 class='card-title mb-1 text-dark'><%= post.title %></h5>
-          <p><%= post.content %></p>  
+          <p><%= post.content %></p>
+          <h4 class='d-flex justify-content-between mb-4 container'>
+          </span>
+          <%= link_to 'Delete Post', user_post_path(current_user,post) , method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary' %>
+        </h4>
         </div>
       </div>
     <% end %>
