@@ -1,9 +1,9 @@
 class CommentsController < ApplicationController
-  before_action :set_post, only: [:show, :create]
+  before_action :set_post
   before_action :set_comment, only: %i[destroy edit update]
 
   def show
-    @comment = @post.comments.all
+    @comments = @post.comments
   end
 
   def new
@@ -13,9 +13,10 @@ class CommentsController < ApplicationController
 
   def create
     @comment = @post.comments.create(comment_param)
+    @comment.user_id = current_user.id
     if @comment.save
       flash[:notice] = 'Comment Added'
-      redirect_to user_post_path(params[:user_id],@post)
+      redirect_to user_post_path(current_user, @post)
     else
 
       flash[:notice] = 'Unable to add comment please try again'
