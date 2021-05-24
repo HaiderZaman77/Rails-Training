@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   # GET /posts or /posts.json
   def index
     if user_signed_in?
-      @posts = current_user.posts.all
+      @posts = Post.all
     else
       redirect_to new_user_session_path
     end

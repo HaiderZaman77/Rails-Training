@@ -8,13 +8,17 @@
     <%= link_to user_post_path(current_user,post), class: 'text-decoration-none' do %>
       <div class="card mb-3 container">
         <div class="card-body">
-        <span>
-          <h5 class='card-title mb-1 text-dark'><%= post.title %></h5>
-          <p><%= post.content %></p>
-          <h4 class='d-flex justify-content-between mb-4 container'>
+          <span>
+
+            <h5 class='card-title mb-1 text-dark'>Tagged Person: <%= post.name %></h5>
+            <h4 class='card-title mb-1 text-dark'><%= post.title %></h4>
+            <p><%= post.content %></p>
+            <h4 class='d-flex justify-content-between mb-4 container'>
           </span>
-          <%= link_to 'Delete Post', user_post_path(current_user,post) , method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary' %>
-        </h4>
+          <% if can? :destroy, post %>
+            <%= link_to 'Delete Post', user_post_path(current_user,post) , method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary' %>
+          <% end %>
+          </h4>
         </div>
       </div>
     <% end %>
