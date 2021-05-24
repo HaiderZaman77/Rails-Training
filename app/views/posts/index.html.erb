@@ -1,34 +1,26 @@
-<p id="notice"><%= notice %></p>
-<h1>Welcome To My Site!</h1>
+<% if user_signed_in? %>
+  <h4 class='d-flex justify-content-between mb-4 container'>
+    <span>Posts</span>
+    <%= link_to 'New Post', new_user_post_path(current_user), class: 'btn btn-primary bg-green' %>
+  </h4>
 
+  <% @posts.each do |post| %>
+    <%= link_to user_post_path(current_user,post), class: 'text-decoration-none' do %>
+      <div class="card mb-3 container">
+        <div class="card-body">
+          <span>
 
-
-<h1>Posts</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Title</th>
-      <th>Content</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @posts.each do |post| %>
-      <tr>
-        <td><%= post.name %></td>
-        <td><%= post.title %></td>
-        <td><%= post.content %></td>
-        <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+            <h5 class='card-title mb-1 text-dark'>Tagged Person: <%= post.name %></h5>
+            <h4 class='card-title mb-1 text-dark'><%= post.title %></h4>
+            <p><%= post.content %></p>
+            <h4 class='d-flex justify-content-between mb-4 container'>
+          </span>
+          <% if can? :destroy, post %>
+            <%= link_to 'Delete Post', user_post_path(current_user,post) , method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary' %>
+          <% end %>
+          </h4>
+        </div>
+      </div>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Post', new_post_path %>
+  <% end %>
+<% end %>

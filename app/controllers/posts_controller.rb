@@ -1,17 +1,21 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show]
+  before_action :authenticate_user!
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  layout 'post', only: %i[create new show edit]
 #posts
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
-  
+    if user_signed_in?
+      @posts = Post.all
+    else
+      redirect_to new_user_session_path
+    end
   end
 
   # GET /posts/1 or /posts/1.json
   def show
     @comment = @post.comments.new
     @comments = @post.comments
-  
   end
 
   # GET /posts/new
@@ -20,17 +24,13 @@ class PostsController < ApplicationController
   end
 
   # GET /posts/1/edit
-  def edit
-    @post = Post.find(params[:id])
-
-  end
 
   # POST /posts or /posts.json
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.new(post_params)
     if @post.save
       flash[:notice] = 'Post was successfully created.'
-      redirect_to posts_path
+      redirect_to user_posts_path(current_user)
     else
       render :new
     end
@@ -38,30 +38,26 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
-    @post = Post.find(params[:id])
-    if @post.update(post_params)
-      redirect_to :action => 'show', :id => @post
-    else
-      @comments = Comment.all
-      render :action => 'edit'
-    end
+    @post.update(post_params)
+    redirect_to user_posts_path(current_user)
   end
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
-    @post = Post.find(params[:id])
     @post.destroy
-    redirect_to post_path
+    redirect_to root_path
   end
 
   private
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:name, :title, :content)
+      params.require(:post).permit(:name, :title, :content, :user_id)
     end
 
     def set_post
       @post = Post.find(params[:id])
     end
+
+
 end
