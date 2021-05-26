@@ -2,5 +2,5 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', user_post_path(params[:user_id],@post) %> |
-<%= link_to 'Back',  user_posts_path(params[:user_id],@post) %>
+<%= link_to 'Show', user_post_path(params[:user_id],@post) ,class:'btn btn-secondary mt-4 mb-3' %>
+<%= link_to 'Back',  user_posts_path(params[:user_id],@post), class:'btn btn-primary mt-4 mb-3' %>
