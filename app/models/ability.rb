@@ -9,6 +9,7 @@ class Ability
     if user.present?  # additional permissions for logged in users (they can read their own posts)
       can :read, Post, user_id: user.id
       can :destroy, Post , user_id: user.id
+      can :edit, Post , user_id: user.id
     end
   end
 end
