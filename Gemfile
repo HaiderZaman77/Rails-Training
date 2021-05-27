@@ -32,9 +32,16 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'cancancan'
 
 
+# jquery
+gem 'jquery-rails'
+
 #devise_gem
 gem 'devise', '~> 4.2'
 
+#active-admin
+gem 'activeadmin'
+gem 'draper'
+gem 'pundit'
 
 
 group :development, :test do

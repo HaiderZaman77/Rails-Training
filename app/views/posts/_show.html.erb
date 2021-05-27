@@ -1,0 +1,18 @@
+<%= form_for [@post] do |form| %>
+    <div class="field form-group">
+      <%= form.label :title %>
+      <%= form.text_field :title , class: 'form-control'%>
+    </div>
+  
+    <div class="field form-group">
+      <%= form.label :content %>
+      <%= form.text_area :content , class: 'form-control'%>
+    </div>
+    <% @post.comments.each do |c| %>
+
+        <p>
+          <b>Comment:</b>
+          <%= c.body %>
+        </p>
+    <% end %>
+<% end %>
