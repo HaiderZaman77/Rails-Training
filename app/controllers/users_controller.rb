@@ -10,13 +10,17 @@ class UsersController < ApplicationController
         redirect_to user_posts_path(@user.id)
     end
 
-    def home
+    def edit
+
+    end
+
+    def update
+
     end
 
     def show
         @user = User.find_by_id(params[:id])
     end
-    def edi
 
     private
 
