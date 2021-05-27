@@ -1,9 +1,8 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post, only: [:show, :edit, :update, :destroy]
-  layout 'post', only: %i[create new show edit]
+  layout 'post', only: [:create, :new, :show, :edit]
   load_and_authorize_resource
-#posts
   # GET /posts or /posts.json
   def index
     if user_signed_in?
@@ -51,14 +50,12 @@ class PostsController < ApplicationController
 
   private
 
-    # Only allow a list of trusted parameters through.
-    def post_params
-      params.require(:post).permit(:name, :title, :content, :user_id)
-    end
-
-    def set_post
-      @post = Post.find(params[:id])
-    end
-
-
+  # Only allow a list of trusted parameters through.
+  def post_params
+    params.require(:post).permit(:name, :title, :content, :user_id)
+  end
+  
+  def set_post
+    @post = Post.find(params[:id])
+  end
 end
