@@ -1,6 +1,6 @@
-<h1>Editing Post</h1>
+<h1 class="bg-info text-center">Editing Post</h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', user_post_path(params[:user_id],@post) %> |
-<%= link_to 'Back',  user_posts_path(params[:user_id],@post) %>
+<%= link_to 'Show', user_post_path(params[:user_id],@post), class: 'btn btn-info mt-1' %>
+<%= link_to 'Back',  user_posts_path(params[:user_id],@post) , class: 'btn btn-primary mt-1'%>

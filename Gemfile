@@ -32,10 +32,29 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'cancancan'
 
 
+# jquery
+gem 'jquery-rails'
+
 #devise_gem
 gem 'devise', '~> 4.2'
 
+# active-admin
+gem 'activeadmin'
+gem 'draper'
+gem 'pundit'
 
+# Grape gem
+gem 'grape'
+
+# gem rack-cors
+gem 'rack-cors', :require => 'rack/cors'
+# gem 'rack', '~> 2.0.0'
+
+# gem serializer
+gem 'grape-active_model_serializers'
+gem 'grape-swagger'
+gem 'grape-swagger-rails'
+gem 'grape_on_rails_routes'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

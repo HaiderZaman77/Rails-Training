@@ -1,7 +1,7 @@
 <% if user_signed_in? %>
   <h4 class='d-flex justify-content-between mb-4 container'>
     <span>Posts</span>
-    <%= link_to 'New Post', new_user_post_path(current_user), class: 'btn btn-primary bg-green' %>
+    <%= link_to 'New Post', new_user_post_path(current_user), class: 'btn btn-warning' %>
   </h4>
 
   <% @posts.each do |post| %>
@@ -10,15 +10,19 @@
         <div class="card-body">
           <span>
 
-            <h5 class='card-title mb-1 text-dark'>Tagged Person: <%= post.name %></h5>
-            <h4 class='card-title mb-1 text-dark'><%= post.title %></h4>
-            <p><%= post.content %></p>
+            <h5 class='card-header mb-1 text-dark'><%= post.user.name.titleize %></h5>
+            <h4 class='card-title mb-2 text-dark'><%= post.title %></h4>
+            <p><%= raw(post.content) %></p>
+
             <h4 class='d-flex justify-content-between mb-4 container'>
           </span>
           <% if can? :destroy, post %>
-            <%= link_to 'Delete Post', user_post_path(current_user,post) , method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary' %>
+            <%= link_to 'Delete Post', user_post_path(current_user,post) , method: "delete", data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
           <% end %>
           </h4>
+          <div class="card-footer text-muted">
+          <%= distance_of_time_in_words(post.created_at, Time.now, include_seconds: true) %>
+          </div>
         </div>
       </div>
     <% end %>

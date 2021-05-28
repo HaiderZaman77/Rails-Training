@@ -15,9 +15,9 @@
 
     <%= render 'shared/navbar' %>
     <% name = current_user.present? ? current_user.name : 'Stranger' %>
-    <h1>Welcome, <%= name %></h1>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <h1 class="container mt-4">Welcome, <%= name.titleize %></h1>
+    <p class="notice"  style="color:green;"><%= notice %></p>
+    <p class="alert" style="color:red;"><%= alert %></p>
     <%= yield %>
   </body>
 </html>
