@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>You got a new post from <%= @post.user.name %>!</p>
+    <p>
+    Post details<br>
+    --------------------------
+    </p>
+    <p>Name: <%= @post.user.name %></p>
+    <p>Email: <%= @post.user.email %></p>
+    <p>Date & Time: <%= @post.created_at %></p>
+    <p>
+    Post:<br>
+    ----------
+    </p>
+    <p><%= @post.content %></p>
+  </body>
+</html>

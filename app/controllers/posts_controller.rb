@@ -29,6 +29,7 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.new(post_params)
     if @post.save
+      PostMailer.with(post: @post).new_post_email.deliver_later
       flash[:notice] = 'Post was successfully created.'
       redirect_to user_posts_path(current_user)
     else

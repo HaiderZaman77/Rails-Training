@@ -35,6 +35,7 @@ gem 'cancancan'
 # jquery
 gem 'jquery-rails'
 
+
 #devise_gem
 gem 'devise', '~> 4.2'
 
